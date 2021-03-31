@@ -9,4 +9,9 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
         gmp \
         pdo \
         pdo_mysql \
-        pdo_pgsql
+        pdo_pgsql \
+    && apk add --update --no-cache --virtual .build-dependencies $PHPIZE_DEPS \
+        && pecl install apcu \
+        && docker-php-ext-enable apcu \
+        && pecl clear-cache \
+        && apk del .build-dependencies
